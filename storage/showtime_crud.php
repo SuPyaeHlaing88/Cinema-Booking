@@ -1,0 +1,98 @@
+<!-- 
+ $sql = "CREATE TABLE IF NOT EXISTS `showtimes` (
+    `id` INT AUTO_INCREMENT, 
+    `showdate` DATE NOT NULL, 
+    `showtime` TIME NOT NULL, 
+    PRIMARY KEY(`id`))"; 
+ -->
+
+<?php
+
+function save_showtime($mysqli, $showdate, $showtime)
+{
+    $sql = "INSERT INTO `showtimes` (`showdate`,`showtime`) VALUE ('$showdate','$showtime')";
+    return $mysqli->query($sql);
+}
+function get_showtime_for_all($mysqli)
+{
+    $sql = "SELECT * FROM `showtimes`";
+    return $mysqli->query($sql);
+}
+
+function get_showtime_for_time($mysqli, $showdate)
+{
+    $sql = "SELECT * FROM `showtimes` WHERE `showdate`= '$showdate' ORDER BY `showtime` ASC";
+    return $mysqli->query($sql);
+}
+function get_showtimes($mysqli)
+{
+    $sql = "SELECT DISTINCT showdate FROM `showtimes` ORDER BY `showdate` DESC";
+    return $mysqli->query($sql);
+}
+
+function get_showtime_with_showdate($mysqli, $showdate)
+{
+    $sql = "SELECT * FROM `showtimes` WHERE `showdate`= '$showdate' order by `showtime`";
+    return $mysqli->query($sql);
+}
+
+function get_showtime_with_date_and_time($mysqli, $showdate, $showtime)
+{
+    $sql = "SELECT * FROM `showtimes` WHERE `showdate`= '$showdate' AND `showtime`= '$showtime' ";
+    $showtime =  $mysqli->query($sql);
+    return $showtime->fetch_assoc();
+}
+
+// function get_showtime_with_date_and_time($mysqli, $showdate, $showtime) {
+//     // Prepare the SQL query with parameterized inputs
+//     $sql = "SELECT * FROM `showtimes` WHERE `showdate` = ? AND `showtime` = ?";
+
+//     // Prepare the statement to prevent SQL injection
+//     if ($stmt = $mysqli->prepare($sql)) {
+//         // Bind the parameters (assuming $showdate and $showtime are strings)
+//         $stmt->bind_param('ss', $showdate, $showtime);
+
+//         // Execute the query
+//         $stmt->execute();
+
+//         // Store the result
+//         $stmt->store_result();
+
+//         // Check if any rows are returned
+//         if ($stmt->num_rows > 0) {
+//             // Data exists, return true or some relevant data
+//             return true;  // or return the result if you need more data
+//         } else {
+//             // Data does not exist
+//             return false;
+//         }
+
+//         // Close the statement
+//         $stmt->close();
+//     } else {
+//         // SQL preparation failed
+//         return false;
+//     }
+// }
+
+
+function get_showtime_with_id($mysqli, $id)
+{
+    $sql = "SELECT * FROM `showtimes` WHERE `id`=$id";
+    $showtime = $mysqli->query($sql);
+    return $showtime->fetch_assoc();
+}
+
+
+
+function update_showtimes($mysqli, $id, $showdate, $showtime)
+{
+    $sql = "UPDATE `showtimes` SET `showdate`='$showdate',`showtime`='$showtime' WHERE `id`= $id ";
+    return $mysqli->query($sql);
+}
+
+function delete_showtimes($mysqli, $id)
+{
+    $sql = "DELETE FROM `showtimes` WHERE `id`= $id";
+    return $mysqli->query($sql);
+}

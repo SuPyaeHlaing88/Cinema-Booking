@@ -1,0 +1,53 @@
+.container{
+    background-color: aquamarine;
+    align-items: center;
+    width: 70%;
+}
+label{
+    width: 100%;
+    font-size: 100%;
+}
+.seat{
+    background-color: #aa19c7;
+    height: 26px;
+    width: 32px;
+    margin: 3px;   
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+}
+.seatSample{
+
+    border: 2px  solid #aa19c7;
+    background-color: #f8f8fd;
+    height: 26px;
+    width: 32px;
+    margin: 3px;   
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.screen {
+    text-align: center;
+    justify-content: center;
+    background-color: #f5f8fa;
+    height: 100px;
+    width: 50%;
+    margin: 0px 100px;
+    transform: rotateX(-50deg);
+  }
+.selected{
+    background-color: crimson;
+}
+.display{
+    background-color: aliceblue;
+    margin: 20px;
+    padding: 10px;
+}
+button{
+    background-color: mediumblue;
+    color: darkorange;
+    width: 10%;
+    height: 40px;
+}
+#text{
+color: burlywood;}
