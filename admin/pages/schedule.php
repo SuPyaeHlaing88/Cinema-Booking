@@ -104,7 +104,7 @@
                 </thead>
                 <tbody>
                   <?php
-                  $shows = get_showtimes($mysqli);
+                  $shows = get_showtime_just_showdate($mysqli);
                   $sh = 1;
                   $showdate = "";
                   while ($show = $shows->fetch_assoc()) {
@@ -116,9 +116,15 @@
                       <td>
                         <?php
                         $showtimes = get_showtime_with_showdate($mysqli, $showdate);
-                        while ($showtime = $showtimes->fetch_assoc()) { ?>
-                          <ol><?= $showtime['showtime'] ?></ol>
-                        <?php
+
+                        while ($showtime = $showtimes->fetch_assoc()) {
+                          // var_dump($showtime['showtime']);
+                          // die();
+                          $screenings = get_screenings_with_showdate_for_time($mysqli, $showtime['showtime']);
+                          while ($screening = $screenings->fetch_assoc()) {
+                        ?>
+                            <ol><?= $screening['showtime'] ?></ol>
+                        <?php }
                         } ?>
                       </td>
                       <td>

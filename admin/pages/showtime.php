@@ -15,6 +15,7 @@ if (isset($_GET['deleted_id'])) {
     echo "<script>location.replace('../pages/showtime.php?already_deleted')</script>";
   }
 }
+
 // for update item 
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
@@ -49,7 +50,6 @@ if (isset($_POST['showtime'])) {
         $invalid = $status;
       }
     } else {
-
       $result = get_showtime_with_date_and_time($mysqli, $showdate, $showtime);
       if ($result) {
         $alert = "This showtime already exists.";

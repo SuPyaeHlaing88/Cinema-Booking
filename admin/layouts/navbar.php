@@ -1,4 +1,4 @@
-<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+<!-- <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
     <a class="navbar-brand brand-logo" href="../admin/index.php"><img src="../../assets/images/logo.svg" alt="logo" /></a>
     <a class="navbar-brand brand-logo-mini" href="../admin/index.php"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
@@ -32,7 +32,7 @@
           <a class="dropdown-item" href="#">
             <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="../../auth/isLogin.php" name="signout">
+          <a class="dropdown-item" href="?signout" name="signout">
             <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
         </div>
       </li>
@@ -104,4 +104,4 @@
       <span class="mdi mdi-menu"></span>
     </button>
   </div>
-</nav>
+</nav> -->
