@@ -4,17 +4,15 @@
 <?php
 $selected_movie = $selected_movieErr = "";
 $selected_cinema = $selected_cinemaErr = "";
-// $selected_showdate = $selected_showdateErr = "";
 $selected_showtime = $selected_showtimeErr = "";
 $invalid = $alert = $gap = $result_gaps = "";
+// $status = false;
 
 // for new item 
 if (isset($_POST['selected_movie'])) {
     $selected_movie = $_POST['selected_movie'];
     $selected_cinema = $_POST['selected_cinema'];
-    // $selected_showdate = $_POST['selected_showdate'];
     $selected_showtime = $_POST['selected_showtime'];
-    // $showtime = $_POST['showtime'];
 
     if (trim($selected_movie) === "") {
         $selected_movieErr = "Can't be blank!";
@@ -31,58 +29,77 @@ if (isset($_POST['selected_movie'])) {
     }
 
     if (!$invalid) {
-        // var_dump($selected_movie);
-        // var_dump($selected_cinema);
-        // var_dump($selected_showtime);
+        // for same schedule
+        $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema, $selected_showtime);
+        //for same cinema at the same day
+        $showdate = get_showtime_with_id($mysqli, $selected_showtime);
+        $selected_showdate = $showdate['showdate'];
+        $movies_that_day = get_screening_with_selected_cinema_and_selected_showdate($mysqli, $selected_cinema, $selected_showdate);
+        $insertmovie_duration = get_movie_duration($mysqli, $selected_movie);
 
-        // $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema, $selected_showdate, $selected_showtime);
-        $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema);
-        // var_dump($result);
-        if ($result != null) {
-            $showtime_id =  $result['showtime_id'];
-            $showtime_data =  get_showTime_with_id($mysqli, $showtime_id);
-            $showTime_date = $showtime_data['showdate'];
-            $showTime = $showtime_data['showtime'];
-            var_dump($showTime_date);
-            $selected_showtime_data =  get_showTime_with_id($mysqli, $selected_showtime);
-            $selected_showTime_date = $selected_showtime_data['showdate']; // formdate
-            $selected_showTime_hour = $selected_showtime_data['showtime']; //formtime
-            var_dump($selected_showTime_hour);
-            var_dump($selected_showTime_date);
 
-            // checking section
-            if ($showTime_date == $selected_showTime_date) {
-                $already_screenig =  get_screening_with_selected_cinema_and_selected_showtimes($mysqli, $selected_cinema, $selected_showtime);
-                var_dump($already_screenig);
-                $hours = get_showtime_for_time($mysqli, $selected_showTime_date);
-                if ($already_screenig) {
-                    var_dump("already have!");
-                } elseif ($hours) {
 
-                    var_dump("to check duration");
-                } //alreadyduration
+        if ($result) {
+            // deny the same schedule
+            $alert = "This screening already exists.";
 
-                var_dump("That Zan");
-            } else {
-                var_dump("save");
+            $result_gaps = get_gap_between_screening_schedules($mysqli,  $result['showdate']);
+            $gap = get_screening_with_movie_duration($mysqli, $result['movie_id']); //DURATION
+        } elseif ($movies_that_day) {
+            //All having movie's duration
+            while ($movie_that_day = $movies_that_day->fetch_assoc()) {
+                // var_dump($movie_that_day['showtime'] . "->" . $movie_that_day['duration']);
+                $starttime = strtotime($movie_that_day['showtime']) - strtotime("00:00:00");
+                $duration = strtotime($movie_that_day['duration']) - strtotime("00:00:00");
+                // can add break time 
+                $showingtime = $starttime + $duration;
+                $endtime = gmdate("H:i:s", $showingtime);
+
+                $selected_starttime = strtotime($showdate['showtime']) - strtotime("00:00:00");
+                $inserted_duration = strtotime($insertmovie_duration['duration']) - strtotime("00:00:00");
+                $preshowingtime = $selected_starttime + $inserted_duration;
+                $inserted_endtime = gmdate("H:i:s", $preshowingtime);
+
+                if ($endtime > $showdate['showtime']) {
+                    //     $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
+                    //     if ($status === true) {
+                    //         echo "<script> location . replace('../pages/schedule.php')</script>";
+                    //     } else {
+                    //         $invalid = $status;
+                    //     }
+                    // } else {
+                    $closed = get_closed_showtimes($mysqli, $selected_showdate, $movie_that_day['showtime'], $endtime);
+                    while ($cl = $closed->fetch_assoc()) {
+                        if ($closed['showtime'] < $inserted_endtime) {
+                            $alert = "This screenings are anaviable";
+                            // below condition save many times for one
+                            // } else {
+                            //     $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
+                            //     if ($status = true) {
+                            //         echo "<script> location . replace('../pages/schedule.php')</script>";
+                            //     } else {
+                            //         $invalid = $status;
+                            //     }
+                        }
+                    }
+                } else {
+                    $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
+                    if ($status = true) {
+                        echo "<script> location . replace('../pages/schedule.php')</script>";
+                    } else {
+                        $invalid = $status;
+                    }
+                }
             }
-            // var_dump($showtime_id);
         } else {
-            var_dump("query save");
+
+            $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
+            if ($status = true) {
+                echo "<script> location . replace('../pages/schedule.php')</script>";
+            } else {
+                $invalid = $status;
+            }
         }
-        // $result_gaps = get_gap_between_screening_schedules($mysqli,  $result['showdate']);
-        // var_dump($result_gaps['showtime']);
-        // $gap = get_screening_with_movie_duration($mysqli, $result['movie_id']); //DURATION
-        // if ($result) {
-        //     $alert = "This screening already exists.";
-        // } else {
-        //     $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
-        //     if ($status === true) {
-        //         echo "<script>location.replace('../pages/schedule.php')</script>";
-        //     } else {
-        //         $invalid = $status;
-        //     }
-        // }
     }
 }
 ?>
@@ -94,10 +111,6 @@ if (isset($_POST['selected_movie'])) {
         <div class="content-wrapper">
             <div class="page-header">
                 <h3 class="page-title"> Add New Schedule</h3>
-                <!-- <?php var_dump($selected_movie);
-                        var_dump($selected_cinema);
-                        var_dump($selected_showtime);
-                        ?> -->
                 <nav aria-label="breadcrumb">
                     <li class="breadcrumb-item"><a href="../pages/schedule.php"> List of Schedules</a></li>
                 </nav>
@@ -113,8 +126,7 @@ if (isset($_POST['selected_movie'])) {
                             <?php if ($invalid !== "" && $invalid !== "err") { ?>
                                 <div class="alert alert-danger"><?= $invalid ?></div>
                             <?php } else if ($alert !== "") { ?>
-                                <div class="alert alert-danger"><?= $alert;
-                                                                echo $result['showdate']     ?></div>
+                                <div class="alert alert-danger"><?= $alert ?></div>
                             <?php } ?>
 
                             <form class="forms-sample" method="POST">
@@ -167,15 +179,5 @@ if (isset($_POST['selected_movie'])) {
                         </div>
                     </div>
                 </div>
-                <!-- <?php { ?>
-                    <div>
-                        <?= $gap['duration'] . $gap['showtime'] ?>
-                    </div>
-                <?php } ?>
-                <?php while ($result_gap = $result_gaps->fetch_assoc()) { ?>
-                    <div>
-                        <?= $result_gap['showtime'] ?>
-                    </div>
-                <?php } ?>
-            </div> -->
-                <?php require_once("../layouts/footer.php") ?>
+            </div>
+            <?php require_once("../layouts/footer.php") ?>
