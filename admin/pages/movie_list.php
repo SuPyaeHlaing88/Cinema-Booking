@@ -1,6 +1,5 @@
 <?php require_once("../layouts/header.php") ?>
 <?php require_once("../layouts/navbar.php") ?>
-// for deleting
 <?php
 $deleteSuccess = $deleteFail = "";
 if (isset($_GET['deleted_id'])) {

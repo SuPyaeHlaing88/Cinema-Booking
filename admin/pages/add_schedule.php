@@ -54,7 +54,6 @@ if (isset($_POST['selected_movie'])) {
         return $startDateTime->format("H:i:s");
     }
 
-
     if (!$invalid) {
         $movie = get_movie_with_id($mysqli, $selected_movie);
         $showtime = get_showtime_with_id($mysqli, $selected_showtime);
@@ -63,10 +62,19 @@ if (isset($_POST['selected_movie'])) {
         $time = $showtime['showtime'];
         $e_time = calculate_time($time, $movieDuration);
         $s_time = calculate_time($time, $movieDuration, "sub");
-        $sql = "SELECT * FROM `screenings` scr INNER JOIN `showtimes` sho ON sho.id= scr.showtime_id INNER JOIN `movies` mov ON mov.id=scr.movie_id INNER JOIN `cinemas` cin ON cin.id=scr.cinema_id WHERE scr.movie_id=$selected_movie AND cin.id=$selected_cinema AND sho.showdate ='$s_date' AND sho.showtime BETWEEN '$s_time' AND '$e_time'";
+        $sql = "SELECT * FROM `screenings` scr INNER JOIN `showtimes` sho ON sho.id= scr.showtime_id INNER JOIN `movies` mov ON mov.id=scr.movie_id INNER JOIN `cinemas` cin ON cin.id=scr.cinema_id WHERE cin.id=$selected_cinema AND sho.showdate ='$s_date' AND sho.showtime BETWEEN '$s_time' AND '$e_time'";
         $validationResult = $mysqli->query($sql);
         $validation = $validationResult->fetch_assoc();
-        var_dump($validation);
+        if ($validation) {
+            $alert = "This screening already exists.";
+        } else {
+            $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
+            if ($status === true) {
+                echo "<script>location.replace('../pages/schedule.php')</script>";
+            } else {
+                $invalid = $status;
+            }
+        }
     }
 }
 ?>
