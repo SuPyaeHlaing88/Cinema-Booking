@@ -28,78 +28,45 @@ if (isset($_POST['selected_movie'])) {
         $invalid = "err";
     }
 
-    if (!$invalid) {
-        // for same schedule
-        $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema, $selected_showtime);
-        //for same cinema at the same day
-        $showdate = get_showtime_with_id($mysqli, $selected_showtime);
-        $selected_showdate = $showdate['showdate'];
-        $movies_that_day = get_screening_with_selected_cinema_and_selected_showdate($mysqli, $selected_cinema, $selected_showdate);
-        $insertmovie_duration = get_movie_duration($mysqli, $selected_movie);
+    function end_time_cal($startTime, $duration)
+    {
+        $startDateTime = new DateTime(trim($startTime));
+        $duration = trim($duration);
+        list($hours, $minutes, $seconds) = explode(":", $duration);
+        $interval = new DateInterval("PT{$hours}H{$minutes}M{$seconds}S");
+        $startDateTime->add($interval);
+        return $startDateTime->format("H:i:s");
+    }
 
-
-
-        if ($result) {
-            // deny the same schedule
-            $alert = "This screening already exists.";
-
-            $result_gaps = get_gap_between_screening_schedules($mysqli,  $result['showdate']);
-            $gap = get_screening_with_movie_duration($mysqli, $result['movie_id']); //DURATION
-        } elseif ($movies_that_day) {
-            //All having movie's duration
-            while ($movie_that_day = $movies_that_day->fetch_assoc()) {
-                // var_dump($movie_that_day['showtime'] . "->" . $movie_that_day['duration']);
-                $starttime = strtotime($movie_that_day['showtime']) - strtotime("00:00:00");
-                $duration = strtotime($movie_that_day['duration']) - strtotime("00:00:00");
-                // can add break time 
-                $showingtime = $starttime + $duration;
-                $endtime = gmdate("H:i:s", $showingtime);
-
-                $selected_starttime = strtotime($showdate['showtime']) - strtotime("00:00:00");
-                $inserted_duration = strtotime($insertmovie_duration['duration']) - strtotime("00:00:00");
-                $preshowingtime = $selected_starttime + $inserted_duration;
-                $inserted_endtime = gmdate("H:i:s", $preshowingtime);
-
-                if ($endtime > $showdate['showtime']) {
-                    //     $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
-                    //     if ($status === true) {
-                    //         echo "<script> location . replace('../pages/schedule.php')</script>";
-                    //     } else {
-                    //         $invalid = $status;
-                    //     }
-                    // } else {
-                    $closed = get_closed_showtimes($mysqli, $selected_showdate, $movie_that_day['showtime'], $endtime);
-                    while ($cl = $closed->fetch_assoc()) {
-                        if ($closed['showtime'] < $inserted_endtime) {
-                            $alert = "This screenings are anaviable";
-                            // below condition save many times for one
-                            // } else {
-                            //     $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
-                            //     if ($status = true) {
-                            //         echo "<script> location . replace('../pages/schedule.php')</script>";
-                            //     } else {
-                            //         $invalid = $status;
-                            //     }
-                        }
-                    }
-                } else {
-                    $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
-                    if ($status = true) {
-                        echo "<script> location . replace('../pages/schedule.php')</script>";
-                    } else {
-                        $invalid = $status;
-                    }
-                }
-            }
+    function calculate_time($startTime, $duration, $operation = 'add')
+    {
+        $startDateTime = new DateTime(trim($startTime));
+        $duration = trim($duration);
+        list($hours, $minutes, $seconds) = explode(":", $duration);
+        $interval = new DateInterval("PT{$hours}H{$minutes}M{$seconds}S");
+        if ($operation === 'add') {
+            $startDateTime->add($interval);
+        } elseif ($operation === 'sub') {
+            $startDateTime->sub($interval);
         } else {
-
-            $status = save_screenings($mysqli, $selected_movie, $selected_cinema, $selected_showtime);
-            if ($status = true) {
-                echo "<script> location . replace('../pages/schedule.php')</script>";
-            } else {
-                $invalid = $status;
-            }
+            throw new Exception("Invalid operation. Use 'add' or 'sub'.");
         }
+        return $startDateTime->format("H:i:s");
+    }
+
+
+    if (!$invalid) {
+        $movie = get_movie_with_id($mysqli, $selected_movie);
+        $showtime = get_showtime_with_id($mysqli, $selected_showtime);
+        $movieDuration = $movie['duration'];
+        $s_date = $showtime['showdate'];
+        $time = $showtime['showtime'];
+        $e_time = calculate_time($time, $movieDuration);
+        $s_time = calculate_time($time, $movieDuration, "sub");
+        $sql = "SELECT * FROM `screenings` scr INNER JOIN `showtimes` sho ON sho.id= scr.showtime_id INNER JOIN `movies` mov ON mov.id=scr.movie_id INNER JOIN `cinemas` cin ON cin.id=scr.cinema_id WHERE scr.movie_id=$selected_movie AND cin.id=$selected_cinema AND sho.showdate ='$s_date' AND sho.showtime BETWEEN '$s_time' AND '$e_time'";
+        $validationResult = $mysqli->query($sql);
+        $validation = $validationResult->fetch_assoc();
+        var_dump($validation);
     }
 }
 ?>
