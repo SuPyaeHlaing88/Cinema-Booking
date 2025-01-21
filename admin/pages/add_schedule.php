@@ -30,45 +30,79 @@ if (isset($_POST['selected_movie'])) {
         $invalid = "err";
     }
 
+
+
     if (!$invalid) {
         // var_dump($selected_movie);
         // var_dump($selected_cinema);
         // var_dump($selected_showtime);
 
         // $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema, $selected_showdate, $selected_showtime);
-        $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema);
+        $result = get_screening_with_cinema_and_showtime($mysqli, $selected_cinema); //check cineam exist or not
         // var_dump($result);
         if ($result != null) {
-            $showtime_id =  $result['showtime_id'];
-            $showtime_data =  get_showTime_with_id($mysqli, $showtime_id);
-            $showTime_date = $showtime_data['showdate'];
-            $showTime = $showtime_data['showtime'];
-            var_dump($showTime_date);
-            $selected_showtime_data =  get_showTime_with_id($mysqli, $selected_showtime);
-            $selected_showTime_date = $selected_showtime_data['showdate']; // formdate
-            $selected_showTime_hour = $selected_showtime_data['showtime']; //formtime
-            var_dump($selected_showTime_hour);
-            var_dump($selected_showTime_date);
+                $showtime_data = get_showTime_with_id($mysqli, $selected_showtime);
+                $showTime_date = $showtime_data['showdate'];
+                $showTime = $showtime_data['showtime'];
+                // var_dump("showDate".$showTime_date);
+                // var_dump("showTime". $showTime);
+                //check cinema and showdata exist or not in screenings db
+                $get_selected_movies_duration = get_movie_with_id($mysqli, $selected_movie);
+                $selected_movie_duration = $get_selected_movies_duration['duration'];
+                // var_dump("selected movies duration ".$get_selected_movies_duration['duration']);
+                // var_dump($selected_cinema);
+                // var_dump($showTime_date);
+                $check = check_exist_or_not_showDate_in_screening($mysqli,$selected_cinema,$showTime_date);
+                var_dump( $check);
+            if ($check != null) {
+                    function timeToSeconds($time)
+                    {
+                        list($hours, $minutes, $seconds) = explode(':', $time);
+                        return $hours * 3600 + $minutes * 60 + $seconds;
+                    }
+                    // Convert total seconds back to h:m:s format (no leading zeros)
+                    function secondsToTime($totalSeconds)
+                    {
+                        $hours = floor($totalSeconds / 3600);
+                        $minutes = floor(($totalSeconds % 3600) / 60);
+                        $seconds = $totalSeconds % 60;
+                        return "{$hours}:{$minutes}:{$seconds}"; // No leading zeros
+                    }
 
-            // checking section
-            if ($showTime_date == $selected_showTime_date) {
-                $already_screenig =  get_screening_with_selected_cinema_and_selected_showtimes($mysqli, $selected_cinema, $selected_showtime);
-                var_dump($already_screenig);
-                $hours = get_showtime_for_time($mysqli, $selected_showTime_date);
-                if ($already_screenig) {
-                    var_dump("already have!");
-                } elseif ($hours) {
+                    // Convert times to seconds and add them
+                    $totalSeconds = timeToSeconds($showTime) + timeToSeconds($selected_movie_duration);
+                    $totalTime = secondsToTime($totalSeconds); // movies duration + showtime (selected value in form)
+                    
+                    // var_dump('date'.$showTime_date);
+                    // var_dump('value'.$showTime);
+                    // var_dump("That Zan:" . $totalTime);
 
-                    var_dump("to check duration");
-                } //alreadyduration
+                    // $check_exist_or_not = draw_showTime_if_exist_or_not_in_screening_table($mysqli, $showTime, $totalSeconds);
+                    // $check_exist_or_not = draw_showTime_if_exist_or_not_in_screening_table($mysqli,$showTime_date,$showTime,$totalTime);
+                    // Convert the total seconds back to h:m:s format
 
-                var_dump("That Zan");
+                    // $check_selected_showTime = draw_showTime_if_exist_or_not_in_screening_table($mysqli,$showTime_date,$showTime,$totalTime);
+                    // var_dump($check_selected_showTime);
+
+                    // die();
+                    // var_dump($check_exist_or_not);
+                    // die();
+                    // if ($check_exist_or_not != null) {
+                    //     var_dump("showtime does not exist allow query");
+                    // } else {
+                    //     var_dump("choose another time cann't duplicate show time");
+                    // }
+                    // var_dump($totalTime);
+                    // if(date_time_validate($mysqli, $selected_movie, $selected_cinema, $selected_showtime, $showTime, $totalTime, $showTime_date)){
+                        var_dump("hi");
+                    // }
+               
             } else {
-                var_dump("save");
+                var_dump(" no date query save");
             }
-            // var_dump($showtime_id);
+
         } else {
-            var_dump("query save");
+            var_dump("cinema does have so can query sql");
         }
         // $result_gaps = get_gap_between_screening_schedules($mysqli,  $result['showdate']);
         // var_dump($result_gaps['showtime']);
@@ -95,9 +129,9 @@ if (isset($_POST['selected_movie'])) {
             <div class="page-header">
                 <h3 class="page-title"> Add New Schedule</h3>
                 <!-- <?php var_dump($selected_movie);
-                        var_dump($selected_cinema);
-                        var_dump($selected_showtime);
-                        ?> -->
+                var_dump($selected_cinema);
+                var_dump($selected_showtime);
+                ?> -->
                 <nav aria-label="breadcrumb">
                     <li class="breadcrumb-item"><a href="../pages/schedule.php"> List of Schedules</a></li>
                 </nav>
@@ -108,13 +142,15 @@ if (isset($_POST['selected_movie'])) {
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Select</h4>
-                            <p class="card-description"> Add classes like <code>.form-select-lg</code> and <code>.form-select-sm</code>. </p>
+                            <p class="card-description"> Add classes like <code>.form-select-lg</code> and
+                                <code>.form-select-sm</code>.
+                            </p>
 
                             <?php if ($invalid !== "" && $invalid !== "err") { ?>
                                 <div class="alert alert-danger"><?= $invalid ?></div>
                             <?php } else if ($alert !== "") { ?>
-                                <div class="alert alert-danger"><?= $alert;
-                                                                echo $result['showdate']     ?></div>
+                                    <div class="alert alert-danger"><?= $alert;
+                                    echo $result['showdate'] ?></div>
                             <?php } ?>
 
                             <form class="forms-sample" method="POST">

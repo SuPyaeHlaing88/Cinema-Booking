@@ -100,7 +100,7 @@ function get_screening_with_cinema_and_showtime($mysqli, $cinema_id)
     //         LEFT JOIN showtimes ON showtimes.id = screenings.showtime_id
     //         WHERE `cinema_id` = '$cinema_id' AND `showtime_id` = '$showtime_id' ";
     $sql = "select screenings.* from screenings where screenings.cinema_id = $cinema_id";
-    $result = $mysqli->query($sql);
+  $result =   $mysqli->query($sql);
     return $result->fetch_assoc();
     // return $mysqli->query($sql)->fetch_assoc();
 }
@@ -219,6 +219,40 @@ function get_published_movie_by_showdate($mysqli, $movie_id)
                 LEFT JOIN movies as m ON scr.movie_id = m.id
                 WHERE scr.movie_id = '$movie_id'";
     return $mysqli->query($sql);
+}
+function draw_showTime_if_exist_or_not_in_screening_table($mysqli,$showTime_date,$showTime,$totalTime){
+    $sql ="SELECT * FROM `showtimes` WHERE showtimes.showdate = '$showTime_date' AND showtimes.showtime BETWEEN '$showTime' AND '$totalTime'";
+// $sql = "SELECT showtimes.showtime FROM `screenings` 
+// INNER JOIN cinemas ON cinemas.id = screenings.cinema_id
+// INNER JOIN showtimes ON showtimes.id = screenings.showtime_id 
+// WHERE showtimes.showdate = '$showTime_date' AND screenings.cinema_id = $selected_cinema AND showtimes.showtime BETWEEN '$showTime' AND '$totalTime'";
+
+// $sql = "SELECT * FROM `showtimes` INNER JOIN screenings ON screenings.showtime_id = showtimes.id 
+// INNER JOIN cinemas ON screenings.cinema_id = cinemas.id 
+// WHERE showtimes.showdate = $selected_showdate AND (showtimes.showtime BETWEEN $showTime AND $totalSeconds)";
+
+// SELECT * FROM `showtimes` INNER JOIN screenings ON screenings.showtime_id = showtimes.id 
+// INNER JOIN cinemas ON screenings.cinema_id = cinemas.id 
+// WHERE showtimes.showdate = '2025-01-21' AND showtimes.showtime BETWEEN '09:00:00' AND '17:40:12';
+$result = $mysqli->query($sql);
+return $result->fetch_assoc();
+}
+
+// function date_time_validate($mysqli, $movie_id, $cinema_id, $show_time_id, $start_time, $duration, $date){
+//     $sql = "SELECT * FROM `screenings`
+//     INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie_id` 
+//     INNER JOIN `cinemas` ON `cinemas`.`id` = `screenings`.`cinema_id` 
+//     INNER JOIN `showtimes` ON `showtimes`.`id` = `screenings`.`showtime_id` 
+//     WHERE `movies`.`id`  = '$movie_id' AND `cinemas`.`id` = '$cinema_id' and `showtimes`.`id` = '$show_time_id'
+//     AND `showtimes`.`showtime` BETWEEN '$start_time' AND '$duration' AND `showtimes`.`showdate` = '$date'";
+//     $result = $mysqli->query($sql);
+//     return $result->fetch_assoc();
+// }
+function check_exist_or_not_showDate_in_screening($mysqli,$selected_cinema,$showTime_date){
+    // $sql = "SELECT * FROM screenings INNER JOIN showtimes ON screenings.showtime_id = showtimes.id INNER JOIN cinemas ON screenings.cinema_id = cinemas.id WHERE screenings.cinema_id = $selected_cinema AND showtimes.showdate = $showTime_date";
+$sql = "SELECT * FROM `showtimes` INNER JOIN screenings ON screenings.showtime_id = showtimes.id WHERE screenings.cinema_id = $selected_cinema AND showtimes.showdate = '$showTime_date'";
+$result =  $mysqli->query($sql);
+    return $result->fetch_assoc();
 }
 
 ?>

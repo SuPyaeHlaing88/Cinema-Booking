@@ -6,6 +6,9 @@ $description = $descriptionErr = "";
 $genre = $genreErr = "";
 $duration = $durationErr = "";
 $poster = $posterErr = "";
+$hours = $hoursErr = "";
+$seconds = $secondsErr = "";
+$minutes = $minutesErr = "";
 $posterName = "";
 $tmp = "";
 $invalid = "";
@@ -25,7 +28,19 @@ if (isset($_POST['title'])) {
   $title = $_POST['title'];
   $description = $_POST['description'];
   $genre = $_POST['genre'];
-  $duration = $_POST['duration'];
+  $hours = str_pad($_POST['hours'], 2, '0', STR_PAD_LEFT);
+  $minutes = str_pad($_POST['minutes'], 2, '0', STR_PAD_LEFT);
+  $seconds = str_pad($_POST['seconds'], 2, '0', STR_PAD_LEFT);
+  $duration = date("H:i:s", mktime($hours, $minutes, $seconds));
+  if (preg_match('/^\d{1,2}:\d{2}:\d{2}$/', $duration)) {
+    echo "Valid duration: $duration"; // Outputs: Valid duration: 02:15:30
+} else {
+      $durationErr = "Please enter in hour minute second format!";
+      $invalid = "err";
+}
+  // $duration = "$hours:$minutes:$seconds";
+  // $duration = date("H:i:s");
+  // var_dump($duration);
   $poster = $_FILES['poster'];
   $posterName = $poster['name'] . date('YMDHIS');
 
@@ -42,10 +57,13 @@ if (isset($_POST['title'])) {
     $genreErr = "Please select user role!";
     $invalid = "err";
   }
-  if (trim($duration) === "") {
-    $durationErr = "Please select user role!";
-    $invalid = "err";
-  }
+  // if (preg_match('/^\d{2}:\d{2}(:\d{2})?$/', $duration)) {
+  //     $durationErr = "Please enter in hour minute second format!";
+  //     $invalid = "err";
+  // }
+  // if (trim($duration) === "") {
+    
+  // }
   if ($poster === "") {
     $posterErr = "Image can't be blank!";
     $invalid = "err";
@@ -120,9 +138,24 @@ if (isset($_POST['title'])) {
 
                 </div>
                 <div class="form-group">
-                  <label for="duration">Duration</label>
-                  <input type="text" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
-                  <div class="validation-message"><?= $durationErr ?></div>
+                  <!-- <label for="duration">Duration</label>
+                  <input type="text" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="HH:MM:SS"> -->
+                  <label for="hours">Hours</label>
+                  <input type="number" class="form-control" id="hours" name="hours" placeholder="HH" min="0" ,max="5" required>
+                  <!-- <input type="number" class="form-control" id="minutes" name="minutes" placeholder="MM" min="0" max="59" required>
+                  <input type="number" class="form-control" id="seconds" name="seconds" placeholder="SS" min="0" max="59" required> -->
+                  <div class="validation-message"><?= $hoursErr ?></div>
+                </div>
+                
+                <div class="form-group">
+                <label for="hours">Minutes</label>
+                <input type="number" class="form-control" id="minutes" name="minutes" placeholder="MM" min="0" max="59" required>
+                <div class="validation-message"><?= $minutesErr ?></div>
+                </div>
+                <div class="form-group">
+                <label for="hours">Seconds</label>
+                <input type="number" class="form-control" id="seconds" name="seconds" placeholder="MM" min="0" max="59" required>
+                <div class="validation-message"><?= $secondsErr ?></div>
                 </div>
 
                 <div class="form-group">

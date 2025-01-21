@@ -44,7 +44,7 @@ function create_tables($mysqli)
     `title` VARCHAR(50) NOT NULL, 
     `description` LONGTEXT NOT NULL, 
     `genre` VARCHAR(50) NOT NULL, 
-    `duration` VARCHAR(50) NOT NULL, 
+    `duration` TIME NOT NULL, 
     `poster` VARCHAR(225) NOT NULL, 
     PRIMARY KEY(`id`)
     )";
