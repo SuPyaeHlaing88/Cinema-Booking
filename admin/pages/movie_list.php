@@ -64,7 +64,7 @@ if (isset($_GET['deleted_id'])) {
                     <tr>
                       <td> <?= $i ?> </td>
                       <td>
-                        <img class="table-img" src="data:image/' . $type . ';base64,<?= $movie['poster'] ?>">
+                        <img class="table-img" src="../../assets/poster/<?= $movie['poster'] ?>">
                       </td>
                       <td> <?= $movie['title'] ?></td>
                       <td style="word-wrap: break-word; white-space: normal;"> <?= $movie['description'] ?></td>

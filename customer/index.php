@@ -99,12 +99,13 @@
 
 
             <div class="movie-card-section">
+                
                 <?php 
                     $movies = get_all_movie_for_show($mysqli);
                     while($movie = $movies->fetch_assoc()){ ?>
                          <div class="card">
-                    <img
-                        src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTCXgCV-ZNb3InBCTaLdED58dF6iZJxIvCOBurktiWxXrwGc8DB">
+                    <a href="">
+                    <img class="table-img" src="../assets/poster/americano.png">
 
                     <div class="card-content">
                         <p class="movie-name">
@@ -112,12 +113,16 @@
                         </p>
 
                         <div class="movie-info">
-                            <p class="time"> <span><?= date('g:i A', strtotime($movie['duration']))  ?><span class="d3">3D</span> 16:05<span
-                                        class="d3">3D</span></span>
-                                18:40 21:00 23:15</p>
+                            <p class="time">    
+                                <span>Duration : <?= date('g:i A', strtotime($movie['duration']))  ?>
+                                    <span class="d3">Time</span> <?= date('g:i A', strtotime($movie['show_time'])) ?> 
+                                    <span class="d3">Date </span> <?= $movie['show_date'] ?>
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
+                </a>    
                 <?php  } ?>
                
                

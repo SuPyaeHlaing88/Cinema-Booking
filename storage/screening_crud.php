@@ -149,10 +149,11 @@ function get_upcoming_movie_schedule($mysqli, $movie_id)
 }
 function get_all_movie_for_show($mysqli){
 $sql = "SELECT `movies`.`title`,`movies`.`genre`,`movies`.`duration`, `movies`.`poster`, `movies`.`id` AS `movie_id`,
-`showtimes`.`showdate`  FROM `screenings` INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie_id` 
+`showtimes`.`showdate` AS `show_date`,  `showtimes`.`showtime` AS `show_time`, `movies`.`poster`
+FROM `screenings` INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie_id` 
 INNER JOIN `showtimes` ON `showtimes`.`id` = `screenings`.`showtime_id` 
-INNER JOIN `cinemas` ON `cinemas`.`id` = `screenings`.`cinema_id`  
-WHERE `showtimes`.`showdate` >= CURDATE() AND `showtimes`.`showdate` <= DATE_ADD(CURDATE(), INTERVAL 3 DAY)";
+INNER JOIN `cinemas` ON `cinemas`.`id` = `screenings`.`cinema_id` 
+WHERE CURRENT_DATE BETWEEN `showtimes`.`showdate` AND DATE_ADD(`showtimes`.`showdate`, INTERVAL 3 DAY)";
 return $mysqli->query($sql);
 }
 function get_upcoming_movie_by_cinema($mysqli, $movie_id)
