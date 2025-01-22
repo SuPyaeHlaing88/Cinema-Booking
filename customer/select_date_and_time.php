@@ -19,7 +19,6 @@
                     <div class="category-filters filters">
                         Coming soon
                     </div>
-
                 </div>
 
                 <div class="search-filters">
@@ -33,26 +32,14 @@
 
             </div>
             <!----filter-search-box---->
-            <table>
-                
-            <?php if(isset($_GET['movie_id'])){
-                $movie_id = $_GET['movie_id'];
-                $movies_data = get_movie_with_id($mysqli,$movie_id);
-                var_dump($movies_data);
-                $cinemas = get_cinemas_with_movies_id($mysqli,$movie_id);
-                while( $cinema= $cinemas->fetch_assoc()){?>
-                <tr>
-                    <td><?=$cinema['name']?></td>
-                    <td><?=$cinema['name']?></td>
-                    <td><a href="./select_date_and_time.php?cinema_id=<?= $cinema['id'] ?>&movie_id=<?= $movie_id ?>">select the cinema</a></td>
-                </tr>
-
-          <?php           
-                }
-            }
-                 ?>
             
-            </table>
+           <?php
+           if(isset($_GET['cinema_id'])){
+            $cinema_id = $_GET['cinema_id'];
+            $movie_id = $_GET['movie_id'];
+            $select_showtime_data = get_showtime_data_with_movie_id_and_cinema_id($mysqil,$cinema_id,$movie_id);
+           }
+           ?>
 
             <!-- <div class="movie-card-section">
                 
