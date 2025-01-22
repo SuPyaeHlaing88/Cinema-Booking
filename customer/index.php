@@ -124,10 +124,8 @@
                 </div>
                 </a>    
                 <?php  } ?>
-               
-               
             </div>
-            <!---movie-card--->
+            <!---movie-card--j->
 
             <div class="show">
                 <div class="show-bar">
