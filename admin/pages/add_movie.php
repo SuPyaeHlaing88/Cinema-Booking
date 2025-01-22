@@ -1,5 +1,5 @@
 <?php require_once("../layouts/header.php") ?>
-<?php //require_once("../layouts/navbar.php") ?>
+<?php require_once("../layouts/navbar.php") ?>
 <?php
 $title = $titleErr = "";
 $description = $descriptionErr = "";
@@ -81,11 +81,11 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <div class="container-fluid page-body-wrapper">
-  <?php //require_once("../layouts/sidebar.php") ?>
+  <?php require_once("../layouts/sidebar.php") ?>
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="page-header">
-        <h3 class="page-title"> Add new Movie </h3>
+        <h3 class="page-title">Add new Movie </h3>
         <nav aria-label="breadcrumb">
           <li class="breadcrumb-item"><a href="../pages/movie_list.php">Movie List</a></li>
         </nav>
@@ -120,7 +120,7 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div class="form-group">
                   <label for="duration">Duration</label>
-                  <input type="text" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
+                  <input type="time" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
                   <div class="validation-message"><?= $durationErr ?></div>
                 </div>
 
