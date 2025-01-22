@@ -21,13 +21,14 @@ if (isset($_GET['id'])) {
 }
 
 // for new item 
-if (isset($_POST['title'])) {
+if (isset($_POST['submit'])) {
   $title = $_POST['title'];
   $description = $_POST['description'];
   $genre = $_POST['genre'];
   $duration = $_POST['duration'];
   $poster = $_FILES['poster'];
-  $posterName = $poster['name'] . date('YMDHIS');
+  
+  $posterName = date('YMDHIS').$poster['name'];
 
   if (trim($title) === "") {
     $titleErr = "Title can't be blank!";
@@ -46,33 +47,31 @@ if (isset($_POST['title'])) {
     $durationErr = "Please select user role!";
     $invalid = "err";
   }
-  if ($poster === "") {
+  if ($poster['name'] === "") {
     $posterErr = "Image can't be blank!";
     $invalid = "err";
   }
 
-  if (!$invalid) {
-    $tmp = $poster['tmp_name'];
-    $imgfile = file_get_contents($tmp);
-    $dataPoster = base64_encode($imgfile);
-
-    // for updating item 
+  if ($invalid == "") {
+   
     if (isset($_GET['id'])) {
 
-      $status = update_movies($mysqli, $id, $title, $description, $genre, $duration, $dataPoster);
+      $status = update_movies($mysqli, $id, $title, $description, $genre, $duration, $posterName);
       if ($status === true) {
+        $tmp = $poster['tmp_name'];
         // for image's name can be save in workspace folder 
-        move_uploaded_file($poster['tmp_name'], '../../assets/images/movie_posters/' . $posterName);
+        move_uploaded_file($tmp, '../../assets/poster/' . $posterName);
         echo "<script>location.replace('../pages/movie_list.php')</script>";
       } else {
         $invalid = $status;
       }
     } else {
 
-      $status = save_movie($mysqli, $title, $description, $genre, $duration, $dataPoster);
+      $status = save_movie($mysqli, $title, $description, $genre, $duration, $posterName);
       if ($status === true) {
+        $tmp = $poster['tmp_name'];
         // for image's name can be save in workspace folder 
-        move_uploaded_file($poster['tmp_name'], '../../assets/images/movie_posters/' . $posterName);
+        move_uploaded_file($tmp, '../../assets/poster/' . $posterName);
         echo "<script>location.replace('../pages/movie_list.php')</script>";
       } else {
         $invalid = $status;
@@ -86,7 +85,7 @@ if (isset($_POST['title'])) {
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="page-header">
-        <h3 class="page-title"> Add new Movie </h3>
+        <h3 class="page-title">Add new Movie </h3>
         <nav aria-label="breadcrumb">
           <li class="breadcrumb-item"><a href="../pages/movie_list.php">Movie List</a></li>
         </nav>
@@ -100,7 +99,7 @@ if (isset($_POST['title'])) {
               <?php if ($invalid !== "" && $invalid !== "err") { ?>
                 <div class="alert alert-danger"><?= $invalid ?></div>
               <?php } ?>
-              <form class="forms-sample" method="POST" enctype="multipart/form-data">
+              <form class="forms-sample" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="title">Title</label>
                   <input type="text" class="form-control" id="title" name="title" placeholder="Movie Title" value="<?= $title ?>">
@@ -121,7 +120,7 @@ if (isset($_POST['title'])) {
                 </div>
                 <div class="form-group">
                   <label for="duration">Duration</label>
-                  <input type="text" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
+                  <input type="time" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
                   <div class="validation-message"><?= $durationErr ?></div>
                 </div>
 
@@ -131,7 +130,7 @@ if (isset($_POST['title'])) {
                   <div class="validation-message"><?= $posterErr ?></div>
                 </div>
 
-                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                <button type="submit" name="submit" class="btn btn-gradient-primary me-2">Submit</button>
                 <button class="btn btn-light">Cancel</button>
               </form>
             </div>

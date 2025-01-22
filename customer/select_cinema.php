@@ -1,5 +1,4 @@
 <?php require_once('./layout/header.php') ?>
-
         <section>
             <div class="filter-search-box">
 
@@ -34,9 +33,28 @@
 
             </div>
             <!----filter-search-box---->
+            <table>
+                
+            <?php if(isset($_GET['movie_id'])){
+                $movie_id = $_GET['movie_id'];
+                $movies_data = get_movie_with_id($mysqli,$movie_id);
+                var_dump($movies_data);
+                $cinemas = get_cinemas_with_movies_id($mysqli,$movie_id);
+                while( $cinema= $cinemas->fetch_assoc()){?>
+                <tr>
+                    <td><?=$cinema['name']?></td>
+                    <td><?=$cinema['name']?></td>
+                    <td><a href="./select_date_and_time.php?cinema_id=<?= $cinema['id'] ?>&movie_id=<?= $movie_id ?>">select the cinema</a></td>
+                </tr>
 
+          <?php           
+                }
+            }
+                 ?>
+            
+            </table>
 
-            <div class="movie-card-section">
+            <!-- <div class="movie-card-section">
                 
                 <?php 
                     $movies = get_all_movie_for_show($mysqli);
@@ -62,7 +80,7 @@
                 </div>
                 </a>    
                 <?php  } ?>
-            </div>
+            </div> -->
             <!---movie-card--j->
 
             <div class="show">

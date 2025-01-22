@@ -147,7 +147,15 @@ function get_upcoming_movie_schedule($mysqli, $movie_id)
                 AND showtimes.showdate > DATE_ADD(CURDATE(), INTERVAL 2 DAY)";
     return $mysqli->query($sql);
 }
-
+function get_all_movie_for_show($mysqli){
+$sql = "SELECT `movies`.`title`,`movies`.`genre`,`movies`.`duration`, `movies`.`poster`, `movies`.`id` AS `movie_id`,
+`showtimes`.`showdate` AS `show_date`,  `showtimes`.`showtime` AS `show_time`, `movies`.`poster`
+FROM `screenings` INNER JOIN `movies` ON `movies`.`id` = `screenings`.`movie_id` 
+INNER JOIN `showtimes` ON `showtimes`.`id` = `screenings`.`showtime_id` 
+INNER JOIN `cinemas` ON `cinemas`.`id` = `screenings`.`cinema_id` 
+WHERE CURRENT_DATE BETWEEN `showtimes`.`showdate` AND DATE_ADD(`showtimes`.`showdate`, INTERVAL 3 DAY)";
+return $mysqli->query($sql);
+}
 function get_upcoming_movie_by_cinema($mysqli, $movie_id)
 {
     $sql = "SELECT DISTINCT name FROM screenings as scr 
@@ -192,5 +200,19 @@ function get_published_movie_by_showdate($mysqli, $movie_id)
                 WHERE scr.movie_id = '$movie_id'";
     return $mysqli->query($sql);
 }
+
+
+function get_cinemas_with_movies_id($mysqli,$movie_id){
+    $sql = "SELECT  DISTINCT cinemas.* FROM `screenings` LEFT JOIN cinemas ON 
+screenings.cinema_id = cinemas.id WHERE screenings.movie_id = $movie_id;
+";
+    return $mysqli->query($sql);
+    
+}
+function get_showtime_data_with_movie_id_and_cinema_id($mysqli,$cinema_id,$movie_id){
+    $sql = "SELECT showtimes.showdate,showtimes.showtime FROM `screenings` INNER JOIN showtimes ON screenings.showtime_id= showtimes.id WHERE screenings.movie_id = 11 AND screenings.cinema_id = 1";
+    return $mysqli->query($sql);
+}
+
 
 ?>

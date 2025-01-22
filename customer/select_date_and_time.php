@@ -1,5 +1,4 @@
 <?php require_once('./layout/header.php') ?>
-
         <section>
             <div class="filter-search-box">
 
@@ -20,7 +19,6 @@
                     <div class="category-filters filters">
                         Coming soon
                     </div>
-
                 </div>
 
                 <div class="search-filters">
@@ -34,9 +32,16 @@
 
             </div>
             <!----filter-search-box---->
+            
+           <?php
+           if(isset($_GET['cinema_id'])){
+            $cinema_id = $_GET['cinema_id'];
+            $movie_id = $_GET['movie_id'];
+            $select_showtime_data = get_showtime_data_with_movie_id_and_cinema_id($mysqil,$cinema_id,$movie_id);
+           }
+           ?>
 
-
-            <div class="movie-card-section">
+            <!-- <div class="movie-card-section">
                 
                 <?php 
                     $movies = get_all_movie_for_show($mysqli);
@@ -62,7 +67,7 @@
                 </div>
                 </a>    
                 <?php  } ?>
-            </div>
+            </div> -->
             <!---movie-card--j->
 
             <div class="show">

@@ -97,6 +97,7 @@ if (isset($_POST['username'])) {
 
     <div class="main-panel">
         <div class="content-wrapper">
+
             <div class="page-header">
                 <h3 class="page-title"> User Section </h3>
                 <nav aria-label="breadcrumb">
@@ -177,5 +178,4 @@ if (isset($_POST['username'])) {
                 </div>
             </div>
             <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
             <?php require_once("../layouts/footer.php") ?>

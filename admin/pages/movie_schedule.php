@@ -40,6 +40,7 @@
                     <th> Qty </th>
                     <th> Poster </th>
                     <th> Movie title </th>
+                    <th> Duration </th>
                     <th> Cinemas </th>
                     <th> Showdates</th>
                   </tr>
@@ -52,12 +53,15 @@
                     $nowMovies = get_nowshowing_movie_schedule($mysqli, $movie['id']);
                     $nowMovie = $nowMovies->fetch_assoc();
                     if ($nowMovie) { ?>
+
                       <tr>
                         <td><?= $m ?></td>
                         <td>
                           <img class="table-img" src="data:image/' . $type . ';base64,<?= $movie['poster'] ?>">
                         </td>
                         <td><?= $movie['title'] ?></td>
+                        <td><?= $nowMovie['duration'] ?></td>
+
                         <td>
                           <?php
                           $screenings = get_nowshowing_movie_by_cinema($mysqli, $nowMovie['id']);
