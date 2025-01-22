@@ -201,4 +201,13 @@ function get_published_movie_by_showdate($mysqli, $movie_id)
     return $mysqli->query($sql);
 }
 
+
+function get_cinemas_with_movies_id($mysqli,$movie_id){
+    $sql = "SELECT  DISTINCT cinemas.* FROM `screenings` LEFT JOIN cinemas ON 
+screenings.cinema_id = cinemas.id WHERE screenings.movie_id = $movie_id;
+";
+    return $mysqli->query($sql);
+    
+}
+
 ?>
