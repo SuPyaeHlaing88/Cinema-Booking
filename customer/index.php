@@ -56,98 +56,12 @@
                 </ul>
 
             </nav>
-            <!-- Nowshowing carousel section -->
-            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <!-- loop for Nowshowing -->
-                    <div class="carousel-item popular-movie-slider active" data-bs-interval="2000">
-                        <img src="..." class="d-block w-100" alt=" ...">
-                    </div>
-                    <div class="carousel-item popular-movie-slider" data-bs-interval="2000">
-                        <img src="..." class="d-block w-100" alt=" .">
-                    </div>
-                    <div class="carousel-item popular-movie-slider">
-                        <img src="..." class="d-block w-100" alt="..">
-
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="prev" data-bs-interval="2000">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-            <!-- Nowshowing carousel section end   -->
-
-            <!---slider--->
+           
         </header>
 
         <section>
 
-            <div class="movie-ticket-book">
-                <div class="choose-date">
-                    <p class="heading">
-                        choose date:
-                    </p>
-                    <div class="wrapper">
-                        <div class="carousel owl-carousel">
-
-                            <div class="card card-1">
-                                <p>JUN 1st</p>
-                                <p>MON</p>
-                            </div>
-                            <div class="card card-2">
-                                <p>JUN 2nd</p>
-                                <p>TUE</p>
-                            </div>
-                            <div class="card card-3">
-                                <p>JUN 3nd</p>
-                                <p>wed</p>
-                            </div>
-                            <div class="card card-4">
-                                <p>JUN 4nd</p>
-                                <p>thu</p>
-                            </div>
-                        </div>
-                        <div class="marker"></div>
-                    </div>
-                </div>
-                <div class="choose-time">
-                    <p class="heading">
-                        avalible times:
-                    </p>
-                    <div class="wrapper">
-                        <div class="carousel owl-carousel">
-
-                            <div class="card card-1">
-                                <p>3D</p>
-                                <p>14:45</p>
-                            </div>
-                            <div class="card card-2">
-                                <p>3D</p>
-                                <p>11:45</p>
-                            </div>
-                            <div class="card card-3">
-                                <p>2D</p>
-                                <p>12:15</p>
-                            </div>
-                            <div class="card card-4">
-                                <p>3D</p>
-                                <p>13:00</p>
-                            </div>
-                        </div>
-                        <div class="marker"></div>
-                    </div>
-                </div>
-                <button>Buy ticket</button>
-            </div>
-            <!---movie-ticket-book-->
-
+           
 
             <div class="filter-search-box">
 
@@ -185,128 +99,28 @@
 
 
             <div class="movie-card-section">
-
-                <div class="card">
+                <?php 
+                    $movies = get_all_movie_for_show($mysqli);
+                    while($movie = $movies->fetch_assoc()){ ?>
+                         <div class="card">
                     <img
                         src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTCXgCV-ZNb3InBCTaLdED58dF6iZJxIvCOBurktiWxXrwGc8DB">
 
                     <div class="card-content">
                         <p class="movie-name">
-                            the mummy
+                           <?= $movie['title'] ?>
                         </p>
 
                         <div class="movie-info">
-                            <p class="time">11:30 <span>14:45<span class="d3">3D</span> 16:05<span
+                            <p class="time"> <span><?= date('g:i A', strtotime($movie['duration']))  ?><span class="d3">3D</span> 16:05<span
                                         class="d3">3D</span></span>
                                 18:40 21:00 23:15</p>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <img
-                        src="https://m.media-amazon.com/images/M/MV5BMTYzODQzYjQtNTczNC00MzZhLTg1ZWYtZDUxYmQ3ZTY4NzA1XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Wonder Woman
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time">11:30 <span>14:45 16:05</span> 18:40 21:00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img
-                        src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSZeZdWD3S9rSzfwlSsnqBWERtgBHR4h_6kHb_fR_6J-BObyxfK">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Alien: Covenant
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time">11:30<span class="d3">3D</span> <span>14:45 16:05<span
-                                        class="d3">3D</span></span>
-                                18:40 21:00 23:15</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX2TBaWUUMpmbhcnr0zypXQltqtQmW9wED_Y8bYrynL98MM1Wq">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Baywatch
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time"><span>11:30 16:05<span class="d3">3D</span></span> 18:40 21:00 23:15</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXhEeDOpouHNg3A75Ngkgl-pQdWrr8ErxSuYCbb8-Tn7KcuD79">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Pirates of the Caribbean
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time">11:30 <span>14:45<span class="d3">3D</span> 16:05<span
-                                        class="d3">3D</span></span>
-                                18:40 21:00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6NX1HzM5IkUhkwR1Yq7vkd9j5dqv0_Zaz5FCa2bzyJaUx9zOa">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            transformers 5
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time">11:30 <span>14:45 16:05</span> 18:40 21:00</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ8wYlRSHxcAyi7TijH8FjeTLKcYsKi3qCzI8r_X0xKU8LkAn_">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Planet of the Apes
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time">11:30<span class="d3">3D</span> <span>14:45 16:05<span
-                                        class="d3">3D</span></span>
-                                18:40 21:00 23:15</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://www.movienewsletters.net/photos/NZL_105934R1.jpg">
-
-                    <div class="card-content">
-                        <p class="movie-name">
-                            Dark Tower
-                        </p>
-
-                        <div class="movie-info">
-                            <p class="time"><span>11:30 16:05<span class="d3">3D</span></span> 18:40 21:00 23:15</p>
-                        </div>
-                    </div>
-                </div>
-
+                <?php  } ?>
+               
+               
             </div>
             <!---movie-card--->
 
@@ -347,12 +161,12 @@
 
         </footer>
 
-        <footer class="footer">
+        <!-- <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
                 <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
                 <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
             </div>
-        </footer>
+        </footer> -->
         <!-- partial -->
     </div>
     <!-- main-panel ends -->
