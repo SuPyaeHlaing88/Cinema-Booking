@@ -104,7 +104,7 @@
                     $movies = get_all_movie_for_show($mysqli);
                     while($movie = $movies->fetch_assoc()){ ?>
                          <div class="card">
-                    <a href="">
+                    <a href="./select_cinema.php?movie_id=<?= $movie['movie_id'] ?>" style="text-decoration: none;">    
                     <img class="table-img" src="../assets/poster/americano.png">
 
                     <div class="card-content">
@@ -116,7 +116,7 @@
                             <p class="time">    
                                 <span>Duration : <?= date('g:i A', strtotime($movie['duration']))  ?>
                                     <span class="d3">Time</span> <?= date('g:i A', strtotime($movie['show_time'])) ?> 
-                                    <span class="d3">Date </span> <?= $movie['show_date'] ?>
+                                    <span class="d3">Start Date </span> <?= $movie['show_date'] ?>
                                 </span>
                             </p>
                         </div>

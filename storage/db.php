@@ -126,10 +126,12 @@ function create_tables($mysqli)
      `method` ENUM('KPAY', 'WAVE', 'CASH') NOT NULL, 
      `status` ENUM('pending', 'confirmed', 'cancelled') NOT NULL, 
      `screening_id` INT NOT NULL, 
-     `customer_id` INT NOT NULL, 
+     `customer_id` INT NOT NULL,
+     `have_seats_id` INT NOT NULL,  
      PRIMARY KEY(`id`), 
      FOREIGN KEY(`screening_id`)  REFERENCES `screenings`(`id`), 
-     FOREIGN KEY(`customer_id`)  REFERENCES `customers`(`id`)
+     FOREIGN KEY(`customer_id`)  REFERENCES `customers`(`id`),
+     FOREIGN KEY(`have_seats_id`) REFERENCES `cinema_has_seats`(`id`)
      )";
 
     if (!$mysqli->query($sql)) {
