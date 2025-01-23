@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <?php require_once("../storage/db.php"); ?>
 <?php require_once("../storage/user_crud.php"); ?>
 <?php require_once("../storage/customer_crud.php"); ?>
@@ -9,6 +10,7 @@
 <?php require_once("../storage/screening_crud.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">

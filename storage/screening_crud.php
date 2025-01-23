@@ -210,7 +210,9 @@ screenings.cinema_id = cinemas.id WHERE screenings.movie_id = $movie_id;
     
 }
 function get_showtime_data_with_movie_id_and_cinema_id($mysqli,$cinema_id,$movie_id){
-    $sql = "SELECT showtimes.showdate,showtimes.showtime FROM `screenings` INNER JOIN showtimes ON screenings.showtime_id= showtimes.id WHERE screenings.movie_id = 11 AND screenings.cinema_id = 1";
+    $sql = "SELECT `showtimes`.`showdate`,`showtimes`.`showtime`,`showtimes`.`id` FROM `screenings` 
+    INNER JOIN `showtimes` ON `screenings`.`showtime_id`= `showtimes`.`id` 
+    WHERE `screenings`.`movie_id` = '$movie_id' AND `screenings`.`cinema_id` = '$cinema_id'";
     return $mysqli->query($sql);
 }
 

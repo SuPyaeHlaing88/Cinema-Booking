@@ -1,4 +1,48 @@
-<?php require_once('./layout/header.php') ?>
+<?php require_once('./layout/header.php'); 
+
+    if(isset($_GET['cinema_id'])){
+        $cinema_id = $_GET['cinema_id'];
+        $movie_id = $_GET['movie_id'];
+        $select_showtime_data = get_showtime_data_with_movie_id_and_cinema_id($mysqli,$cinema_id,$movie_id);
+        $arr = $_SESSION['screening'];
+        $_SESSION['screening'] = ['movie_id' => $arr['movie_id'], 'cinema_id' => $cinema_id];
+    }
+   
+    ?>
+        <section>
+            <div class="filter-search-box">
+
+                <div class="filters-box">
+
+                    <div class="all-filters filters">
+                        All formats <i class="fa fa-angle-down"></i>
+                    </div>
+
+                    <div class="date-filters filters">
+                        By Date <i class="fa fa-angle-down"></i>
+                    </div>
+
+                    <div class="category-filters filters">
+                        By category <i class="fa fa-angle-down"></i>
+                    </div>
+
+                    <div class="category-filters filters">
+                        Coming soon
+                    </div>
+                </div>
+
+                <div class="search-filters">
+                    <input type="text" placeholder="Search by name...">
+                    <i class="fa fa-search"></i>
+                </div>
+
+                <div class="search-bar
+if(isset($_SESSION['screening'])){
+        $cinema_id = $_GET['cinema_id'];
+        $session_arr =  $_SESSION['screening'];
+        $_SESSION['screening'] = ['movie_id' => $session_arr['movie_id'], 'cinema_id' => $cinema_id];  
+    }
+    ?>
         <section>
             <div class="filter-search-box">
 
@@ -37,45 +81,32 @@
            if(isset($_GET['cinema_id'])){
             $cinema_id = $_GET['cinema_id'];
             $movie_id = $_GET['movie_id'];
-            $select_showtime_data = get_showtime_data_with_movie_id_and_cinema_id($mysqil,$cinema_id,$movie_id);
+            $select_showtime_data = get_showtime_data_with_movie_id_and_cinema_id($mysqli,$cinema_id,$movie_id);
+            
            }
+       
            ?>
 
-            <!-- <div class="movie-card-section">
-                
-                <?php 
-                    $movies = get_all_movie_for_show($mysqli);
-                    while($movie = $movies->fetch_assoc()){ ?>
-                         <div class="card">
-                    <a href="./select_cinema.php?movie_id=<?= $movie['movie_id'] ?>" style="text-decoration: none;">    
-                    <img class="table-img" src="../assets/poster/americano.png">
 
-                    <div class="card-content">
-                        <p class="movie-name">
-                           <?= $movie['title'] ?>
-                        </p>
+            <table>
+                <tr>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Price</th>
+                    <th>Book</th>
+                </tr>
+                <?php while($showtime = $select_showtime_data->fetch_assoc()){ ?>
+                <tr>
+                    <td><?= $showtime['showdate'] ?></td>
+                    <td><?= $showtime['showtime'] ?></td>
+                    <td><a href="./seat.php?showtime_id=<?= $showtime['id'] ?>">Book</a></td>
+                </tr>
+                <?php } ?>
+            </table>
 
-                        <div class="movie-info">
-                            <p class="time">    
-                                <span>Duration : <?= date('g:i A', strtotime($movie['duration']))  ?>
-                                    <span class="d3">Time</span> <?= date('g:i A', strtotime($movie['show_time'])) ?> 
-                                    <span class="d3">Start Date </span> <?= $movie['show_date'] ?>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                </a>    
-                <?php  } ?>
-            </div> -->
-            <!---movie-card--j->
 
-            <div class="show">
-                <div class="show-bar">
-                    <div class="bar"></div>
-                </div>
-                <button>Show more</button>
-            </div>
-            <!---bar--->
+           
         </section>
 <?php require_once('./layout/footer.php') ?>
