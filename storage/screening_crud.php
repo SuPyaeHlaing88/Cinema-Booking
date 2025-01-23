@@ -143,12 +143,12 @@ function get_screenings_with_showdate_for_title($mysqli, $showdate)
 //     return $mysqli->query($sql)->fetch_assoc();
 // }
 // for screening duration gap 
-function get_movie_duration($mysqli, $selected_movie)
-{
-    $sql = "SELECT duration FROM `movies` 
-            WHERE movies.`id` = '$selected_movie' ";
-    return $mysqli->query($sql)->fetch_assoc();
-}
+// function get_movie_duration($mysqli, $selected_movie)
+// {
+//     $sql = "SELECT duration FROM `movies` 
+//             WHERE movies.`id` = '$selected_movie' ";
+//     return $mysqli->query($sql)->fetch_assoc();
+// }
 
 
 // for movie schedules 
