@@ -369,3 +369,7 @@ user list
             </div>
           </div>
           <php } ?>
+
+            $inserted_endtime < $movie_that_day['showtime'] || elseif (save_screenings($mysqli, $selected_movie,
+              $selected_cinema, $selected_showtime)===true) {
+              echo "<script> location . replace('../pages/schedule.php')</script>" ; } else { $invalid=$status; }

@@ -8,7 +8,7 @@ function save_showtime($mysqli, $showdate, $showtime)
 
 function get_showtime_for_all($mysqli)
 {
-    $sql = "SELECT * FROM `showtimes` ORDER BY `showdate` DESC";
+    $sql = "SELECT * FROM `showtimes` ORDER BY `showdate` DESC,`showtime` DESC";
     return $mysqli->query($sql);
 }
 
