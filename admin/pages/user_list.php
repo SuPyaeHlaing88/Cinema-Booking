@@ -1,15 +1,14 @@
 <?php require_once("../layouts/header.php") ?>
 <?php require_once("../layouts/navbar.php") ?>
-// for deleting
 <?php
 $deleteSuccess = $deleteFail = "";
 if (isset($_GET['deleted_id'])) {
   $id = $_GET['deleted_id'];
   $status = delete_users($mysqli, $id);
   if ($status == true) {
-    $deleteSuccess = "Deleted movie Successfully";
+    $deleteSuccess = "Deleted User Successfully";
   } else {
-    $deleteFail = "Can't delete movie record";
+    $deleteFail = "Can't delete user record";
   }
 }
 ?>

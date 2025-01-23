@@ -13,45 +13,42 @@ $sql = "CREATE TABLE IF NOT EXISTS `bookings` (
 -->
 
 <?php
-    function save_bookings($mysqli,$total_amount,$booking_time,$method,$status,$screening_id,$customer_id){
-        $sql = "INSERT INTO `bookings`(`total_amount`,`booking_time`,`method`,`status`,`screening_id`,`customer_id`) VALUES ('$total_amount','$booking_time','$method','$status','$screening_id','$customer_id')";
-        return $mysqli->query($sql);
-    }
+function save_bookings($mysqli, $total_amount, $booking_time, $method, $status, $screening_id, $customer_id)
+{
+    $sql = "INSERT INTO `bookings`(`total_amount`,`booking_time`,`method`,`status`,`screening_id`,`customer_id`) VALUES ('$total_amount','$booking_time','$method','$status','$screening_id','$customer_id')";
+    return $mysqli->query($sql);
+}
 
-    function get_all_bookings($mysqli){
+function get_all_bookings($mysqli)
+{
     $sql = "SELECT * FROM `bookings`";
     return $mysqli->query($sql);
-    } 
+}
 
-    function get_booking_with_id($mysqli,$id){
+function get_booking_with_id($mysqli, $id)
+{
     $sql = "SELECT * FROM `bookings` WHERE `id` = $id ";
     $booking =  $mysqli->query($sql);
     return $booking->fetch_assoc();
-    } 
+}
 
-    function get_booking_with_screening_id($mysqli,$screening_id){
-        $sql= "SELECT * from bookings bk LEFT JOIN screenings src on bk.screening_id = src.id WHERE bk.screening_id = $screening_id";
-        return $mysqli->query($sql);
-    }
+function get_booking_with_screening_id($mysqli, $screening_id)
+{
+    $sql = "SELECT * from bookings bk LEFT JOIN screenings src on bk.screening_id = src.id WHERE bk.screening_id = $screening_id";
+    return $mysqli->query($sql);
+}
 
-    function get_screenings_with_customer_id($mysqli,$customer_id){
-        $sql= "SELECT * from bookings bk LEFT JOIN customers c on bk.customer_id = c.id WHERE bk.customer_id = $customer_id";
-        return $mysqli->query($sql);
-    }
+function get_screenings_with_customer_id($mysqli, $customer_id)
+{
+    $sql = "SELECT * from bookings bk LEFT JOIN customers c on bk.customer_id = c.id WHERE bk.customer_id = $customer_id";
+    return $mysqli->query($sql);
+}
 
-    function update_booking($mysqli,$id,$total_amount,$booking_time,$method,$status,$screening_id,$customer_id){
-        $sql = "UPDATE `bookings`  SET `total_amount` ='$total_amount',`booking_time`='$booking_time', `method` = '$method', `status` = $status, `screening_id` = '$screening_id',`customer_id` = '$customer_id'  WHERE `id` = $id"; 
-        return  $mysqli->query($sql);
-    }
-    function delete_booking($mysqli,$id){
-        $sql = "DELETE FROM `bookings` WHERE `id` = $id";
-        return $mysqli->query($sql);
-    }
-
-    function count_bookings($mysqli){
-        $sql = "SELECT COUNT(`id`) as number_of_bookings FROM `bookings`";
-        return $mysqli->query($sql);
-    }
+function count_bookings($mysqli)
+{
+    $sql = "SELECT COUNT(`id`) as number_of_bookings FROM `bookings`";
+    return $mysqli->query($sql);
+}
 
     
     // function get_unique_name($mysqli,$batch_name){

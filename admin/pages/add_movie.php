@@ -115,7 +115,7 @@ if (isset($_POST['title'])) {
                 </div>
                 <div class="form-group">
                   <label for="genre">Genre</label>
-                  <input type="text" class="form-control" id="genre" name="genre" placeholder="Movie Title" value="<?= $genre ?>">
+                  <input type="text" class="form-control" id="genre" name="genre" placeholder="genre" value="<?= $genre ?>">
                   <div class="validation-message"><?= $genreErr ?></div>
 
                 </div>

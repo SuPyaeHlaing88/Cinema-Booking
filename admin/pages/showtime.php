@@ -127,9 +127,18 @@ if (isset($_POST['showtime'])) {
                 <tbody>
                   <?php
                   $shows = get_showtime_for_all($mysqli);
+                  // $date = 0;
                   $i = 1;
                   ?>
-                  <?php while ($show = $shows->fetch_assoc()) { ?>
+                  <?php
+                  // $latest_dates = get_showtime_just_showdate($mysqli);
+                  // while ($latest = $latest_dates->fetch_assoc()) {
+                  //   echo $latest['showdate'];
+                  //   $date++;
+                  // }
+                  // echo $date;
+                  // if($)
+                  while ($show = $shows->fetch_assoc()) { ?>
                     <tr>
                       <td> <?= $i ?> </td>
                       <td> <?= $show['showtime'] ?></td>

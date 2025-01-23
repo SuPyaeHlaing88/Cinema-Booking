@@ -173,10 +173,15 @@ if (isset($_POST['selected_cinema'])) {
                                             </td>
                                         <?php } ?>
                                     </tr>
+
                                 <?php } ?>
                             </tbody>
                         </table>
                     </div>
+                    <strong>
+                        <label class="badge badge-gradient-danger">Delete</label>
+                    </strong>
+                    <div><br></div>
                     <hr>
                 <?php } ?>
             </div>

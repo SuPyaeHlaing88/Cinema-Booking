@@ -90,7 +90,6 @@ if (isset($_POST['selected_movie'])) {
                     <li class="breadcrumb-item"><a href="../pages/schedule.php"> List of Schedules</a></li>
                 </nav>
             </div>
-
             <div class="row">
                 <div class="col-md-6 grid-margin stretch-card">
                     <div class="card">
