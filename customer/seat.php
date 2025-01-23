@@ -1,3 +1,16 @@
+<?php require_once('./layout/header.php') ?>
+<?php
+    if(isset($_SESSION['screening'])){
+        $arr = $_SESSION['screening'];
+        $showtime_id = $_GET['showtime_id'];
+        $_SESSION['screening'] = ['movie_id' => $arr['movie_id'], 'cinema_id' => $arr['cinema_id'], 'showtime_id' => $showtime_id];
+        // var_dump($_SESSION['screening']);
+        $seat_row = get_seat_row_with_cinema_id($mysqli, $arr['cinema_id']);
+        $seat_row_price = get_seat_row_with_cinema_id($mysqli, $arr['cinema_id']);
+    
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,94 +19,31 @@
     <title>Seat</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/seat.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-    <!-- <link rel="stylesheet" href="mystyle.css"> -->
 </head>
 <body>
     <div class="container movie">
         <!-- //prices get from input -->
-        <div class="row price">
-            <div class="col seatSample"><label>A - <span id="seatAprice" value="5000">5000</span>ks</label></div>
-            <div class="col seatSample"><label>B - <span id="seatBprice" value="6000">6000</span>ks<label></div>
-            <div class="col seatSample"><label>C - <span id="seatCprice" value="7000">7000</span>ks<label></div>
-            <div class="col seatSample"><label>D - <span id="seatDprice" value="8500">8500</span>ks<label></div>
-            <div class="col seatSample"><label>E - <span id="seatEprice" value="10000">10,000</span>ks</label></div> 
-            <div class="col seatSample"><label>F - <span id="seatFprice" value="21000">21,000</span>ks</label></div> 
+        <div class="row ">
+        <?php while($price = $seat_row_price->fetch_assoc()){ ?>
+            <div class="col-2 d-flex justify-content-center my-2">
+                <div class="btn btn-outline-dark">
+                    <label><?= $price['row'] ?> - 
+                    <?= $price['price'] ?>
+                    ks</label>
+                </div>
+            </div>
+        <?php } ?>
         </div>
-        <div class="row screen"></div>
+        <!-- <div class="row screen"></div> -->
         <div class="seats">
-           
+           <?php while($row = $seat_row->fetch_assoc()){ ?>
+            <?php $columns = get_seat_with_cinema_id($mysqli,$arr['cinema_id'],$row['row']) ?>
             <div class="row">
-                <div class="col seat">A1</div>
-                <div class="col seat">A2</div>
-                <div class="col seat">A3</div>
-                <div class="col seat">A4</div>
-                <div class="col seat">A5</div>
-                <div class="col seat">A6</div>
-                <div class="col seat">A7</div>
-                <div class="col seat">A8</div>
-                <div class="col seat">A9</div>
-                <div class="col seat">A10</div>
+            <?php while($column = $columns->fetch_assoc()){ ?>
+                <div class="col seat" data-value="<?= $column['id'] ?>"><?= $row['row'] ?><?= $column['column'] ?></div>
+                <?php } ?>
             </div>
-            <div class="row">
-                <div class="col seat">B1</div>
-                <div class="col seat">B2</div>
-                <div class="col seat">B3</div>
-                <div class="col seat">B4</div>
-                <div class="col seat">B5</div>
-                <div class="col seat">B6</div>
-                <div class="col seat">B7</div>
-                <div class="col seat">B8</div>
-                <div class="col seat">B9</div>
-                <div class="col seat">B10</div>
-            </div>
-
-            <div class="row">
-                <div class="col seat">C1</div>
-                <div class="col seat">C2</div>
-                <div class="col seat">C3</div>
-                <div class="col seat">C4</div>
-                <div class="col seat">C5</div>
-                <div class="col seat">C6</div>
-                <div class="col seat">C7</div>
-                <div class="col seat">C8</div>
-                <div class="col seat">C9</div>
-                <div class="col seat">C10</div>
-            </div>
-
-            <div class="row">
-                <div class="col seat">D1</div>
-                <div class="col seat">D2</div>
-                <div class="col seat">D3</div>
-                <div class="col seat">D4</div>
-                <div class="col seat">D5</div>
-                <div class="col seat">D6</div>
-                <div class="col seat">D7</div>
-                <div class="col seat">D8</div>
-                <div class="col seat">D9</div>
-                <div class="col seat">D10</div>
-            </div>
-
-            <div class="row">
-                <div class="col seat">E1</div>
-                <div class="col seat">E2</div>
-                <div class="col seat">E3</div>
-                <div class="col seat">E4</div>
-                <div class="col seat">E5</div>
-                <div class="col seat">E6</div>
-                <div class="col seat">E7</div>
-                <div class="col seat">E8</div>
-                <div class="col seat">E9</div>
-                <div class="col seat">E10</div>
-            </div>
-
-            <div class="row">
-                <div class="col seat">F1</div>
-                <div class="col seat">F2</div>
-                <div class="col seat">F3</div>
-                <div class="col seat">F4</div>
-                <div class="col seat">F5</div>
-            </div>
+            <?php } ?>
         </div>
 
         <div class="display"></div>
@@ -114,5 +64,4 @@
     </div>
 </body>
 <script src="../assets/js/seat.js"></script>
-<!-- <script src="scriptforSeat.js"></script> -->
 </html>

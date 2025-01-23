@@ -57,3 +57,16 @@ function delete_booking($mysqli, $id)
     $sql = "DELETE FROM `cinema_has_seats` WHERE `id` = $id";
     return $mysqli->query($sql);
 }
+
+function get_seat_with_cinema_id($mysqli, $cinema_id,$row)
+{
+    $sql = "SELECT * FROM `cinema_has_seats` INNER JOIN seats ON seats.id = cinema_has_seats.seat_id  WHERE cinema_has_seats.cinema_id = $cinema_id AND seats.row='$row' ORDER by seats.column";
+    return $mysqli->query($sql);
+}
+
+
+function get_seat_row_with_cinema_id($mysqli, $cinema_id)
+{
+    $sql = "SELECT DISTINCT seats.row,cinema_has_seats.price FROM `cinema_has_seats` INNER JOIN seats ON seats.id = cinema_has_seats.seat_id  WHERE cinema_has_seats.cinema_id = $cinema_id ORDER by seats.row";
+    return $mysqli->query($sql);
+}
