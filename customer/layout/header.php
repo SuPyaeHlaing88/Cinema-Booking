@@ -15,7 +15,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Home Dashboard</title>
+    <title>Customer Dashboard</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
@@ -25,9 +25,12 @@
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="../assets/css/bootst?rap.min.css">
     <link rel="stylesheet" href="../assets/css/UI_style.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" />
+    <link rel="shortcut icon" href="../assets/images/favicon.png">
+    <link rel="shortcut icon" href="../assets/bootstrap/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -57,5 +60,5 @@
                 </ul>
 
             </nav>
-           
+
         </header>

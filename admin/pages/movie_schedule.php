@@ -53,7 +53,6 @@
                     $nowMovies = get_nowshowing_movie_schedule($mysqli, $movie['id']);
                     $nowMovie = $nowMovies->fetch_assoc();
                     if ($nowMovie) { ?>
-
                       <tr>
                         <td><?= $m ?></td>
                         <td>
@@ -61,24 +60,24 @@
                         </td>
                         <td><?= $movie['title'] ?></td>
                         <td><?= $nowMovie['duration'] ?></td>
-
                         <td>
                           <?php
-                          $screenings = get_nowshowing_movie_by_cinema($mysqli, $nowMovie['id']);
+                          $screenings = get_nowshowing_movie_by_cinema($mysqli, $nowMovie['movie_id']);
                           while ($screening = $screenings->fetch_assoc()) { ?>
                             <ol><?= $screening['name'] ?></ol>
                           <?php } ?>
                         </td>
                         <td>
                           <?php
-                          $screenings = get_nowshowing_movie_by_showdate($mysqli, $nowMovie['id']);
+                          $screenings = get_nowshowing_movie_by_showdate($mysqli, $nowMovie['movie_id']);
                           while ($screening = $screenings->fetch_assoc()) { ?>
                             <ol><?= $screening['showdate'] ?></ol>
                           <?php } ?>
                         </td>
                       </tr>
-                  <?php $m++;
-                    }
+
+                  <?php }
+                    $m++;
                   }  ?>
                 </tbody>
               </table>
@@ -118,14 +117,14 @@
                         <td><?= $movie['title'] ?></td>
                         <td>
                           <?php
-                          $screenings = get_upcoming_movie_by_cinema($mysqli, $upMovie['id']);
+                          $screenings = get_upcoming_movie_by_cinema($mysqli, $upMovie['movie_id']);
                           while ($screening = $screenings->fetch_assoc()) { ?>
                             <ol><?= $screening['name'] ?></ol>
                           <?php } ?>
                         </td>
                         <td>
                           <?php
-                          $screenings = get_upcoming_movie_by_showdate($mysqli, $upMovie['id']);
+                          $screenings = get_upcoming_movie_by_showdate($mysqli, $upMovie['movie_id']);
                           while ($screening = $screenings->fetch_assoc()) { ?>
                             <ol><?= $screening['showdate'] ?></ol>
                           <?php } ?>

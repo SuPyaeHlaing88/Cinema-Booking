@@ -8,9 +8,7 @@
     <div class="content-wrapper">
       <div class="page-header">
         <h3 class="page-title"> Movie Schedules </h3>
-        <nav aria-label="breadcrumb">
-          <li class="breadcrumb-item"><a href="../pages/add_schedule.php">Add new schedule</a></li>
-        </nav>
+
       </div>
       <div>
         <nav aria-label="breadcrumb">

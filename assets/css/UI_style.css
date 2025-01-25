@@ -406,7 +406,7 @@ section .movie-card-section .card img {
 
 
 section .movie-card-section .card .card-content .movie-name {
-    font-weight: 700;
+    font-weight: 500;
     margin-top: 10px;
     color: black;
 }

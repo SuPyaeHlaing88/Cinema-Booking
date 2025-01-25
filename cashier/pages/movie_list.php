@@ -31,9 +31,7 @@ if (isset($_GET['deleted_id'])) {
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
         <?php } ?>
-        <nav aria-label="breadcrumb">
-          <li class="breadcrumb-item"><a href="../pages/add_movie.php">ADD NEW MOVIE</a></li>
-        </nav>
+
       </div>
       <div class="row">
 

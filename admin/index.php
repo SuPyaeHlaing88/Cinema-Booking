@@ -259,33 +259,6 @@
               <i class="mdi mdi-ticket menu-icon"></i>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <span class="menu-title">User Pages</span>
-              <i class="menu-arrow"></i>
-              <i class="mdi mdi-lock menu-icon"></i>
-            </a>
-            <div class="collapse" id="auth">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item">
-                  <a class="nav-link" href="../admin/pages/samples/blank-page.php"> Blank Page </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../admin/pages/samples/login.php"> Login </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../admin/pages/samples/register.php"> Register </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../admin/pages/samples/error-404.php"> 404 </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="../admin/pages/samples/error-500.php"> 500 </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-
         </ul>
       </nav>
       <!-- side bar end-->
@@ -467,31 +440,30 @@
                           if ($nowMovie) { ?>
                             <tr>
                               <td><?= $m ?></td>
-                              <td><?= $movie['title'] ?></td>
-                              <td> <?php
-                                    $screenings = get_nowshowing_movie_by_showdate($mysqli, $nowMovie['id']);
-                                    while ($screening = $screenings->fetch_assoc()) { ?>
+                              <td><?= $nowMovie['title'] ?></td>
+                              <td>
+                                <?php
+                                $screenings = get_nowshowing_movie_by_showdate($mysqli, $movie['id']);
+                                while ($screening = $screenings->fetch_assoc()) { ?>
                                   <ol><?= $screening['showdate'] ?></ol>
                                 <?php } ?>
                               </td>
                               <td>
                                 <div class="progress">
                                   <?php
-                                  $screenings = get_nowshowing_movie_by_showdate($mysqli, $nowMovie['id']);
+                                  $screenings = get_nowshowing_movie_by_showdate($mysqli, $movie['id']);
                                   $temp = new DateTime(date('Y-m-d'));
 
                                   while ($screening = $screenings->fetch_assoc()) {
                                     $date = new DateTime($screening['showdate']);
-                                    if ($date > $temp) {
+                                    if ($date >= $temp) {
                                       $interval = $temp->diff($date);
                                       $dayCount = $interval->days;
                                     }
                                   }
-                                  // $value = 100 - ($dayCount * 20)
+                                  $value = 100 - ($dayCount * 20);
                                   ?>
-                                  <!-- <div><= $dayCount   ?></div> -->
-                                  <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 100%" aria-valuemin="0" aria-valuemax="100"></div>
-
+                                  <div class="progress-bar bg-gradient-success" role="progressbar" style="width: <?= $value ?>%" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                               </td>
                             </tr>

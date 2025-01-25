@@ -372,4 +372,12 @@ user list
 
             $inserted_endtime < $movie_that_day['showtime'] || elseif (save_screenings($mysqli, $selected_movie,
               $selected_cinema, $selected_showtime)===true) {
-              echo "<script> location . replace('../pages/schedule.php')</script>" ; } else { $invalid=$status; }
+              echo "<script> location . replace('../pages/schedule.php')</script>" ; } else { $invalid=$status; } <div>
+              //
+              select cinema movie_id=
+              <?=$eachTime['movie_id'] ?>&cinema_id=
+              <?= $eachTime['cinema_id'] ?>&showtime_id=
+              <?= $eachTime['showtime_id'] ?>
+      </div>
+
+  </div>

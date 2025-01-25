@@ -27,8 +27,8 @@ if (isset($_POST['submit'])) {
   $genre = $_POST['genre'];
   $duration = $_POST['duration'];
   $poster = $_FILES['poster'];
-  
-  $posterName = date('YMDHIS').$poster['name'];
+
+  $posterName = date('YMDHIS') . $poster['name'];
 
   if (trim($title) === "") {
     $titleErr = "Title can't be blank!";
@@ -40,20 +40,34 @@ if (isset($_POST['submit'])) {
   }
 
   if (trim($genre) === "") {
-    $genreErr = "Please select user role!";
+    $genreErr = "can't be blank!";
     $invalid = "err";
   }
   if (trim($duration) === "") {
-    $durationErr = "Please select user role!";
+
+    $durationErr = "Price can't be blank!";
     $invalid = "err";
+  } else {
+    // Regular expression to match HH:MM:SS format
+    $regex = '/^([01]?\d|2[0-3]):([0-5]?\d):([0-5]?\d)$/';
+
+    if (preg_match($regex, $duration)) {
+      // If the input matches the regex
+      echo "Valid duration: " . htmlspecialchars($duration);
+    } else {
+      // If the input doesn't match the regex
+      $durationErr = "Invalid duration format. Please enter in HH:MM:SS format.";
+      $invalid = "err";
+    }
   }
+
   if ($poster['name'] === "") {
     $posterErr = "Image can't be blank!";
     $invalid = "err";
   }
 
   if ($invalid == "") {
-   
+
     if (isset($_GET['id'])) {
 
       $status = update_movies($mysqli, $id, $title, $description, $genre, $duration, $posterName);
@@ -118,9 +132,15 @@ if (isset($_POST['submit'])) {
                   <div class="validation-message"><?= $genreErr ?></div>
 
                 </div>
-                <div class="form-group">
+
+                <div class="form-group" id="duration-form">
+                  <!-- <label for="duration">Enter duration (in hours, minutes, and seconds):</label>
+                  <input type="text" id="duration" placeholder="HH:MM:SS"> -->
+
                   <label for="duration">Duration</label>
-                  <input type="time" class="form-control" id="duration" name="duration" value="<?= $duration ?>" placeholder="Duration">
+                  <input type="text" class="form-control" id="duration" name="duration" placeholder="HH:MM:SS" value="<?= $duration ?>" placeholder="Duration">
+                  <p id="error-message" style="color: red; display: none;">Please enter a valid duration in the format HH:MM:SS.</p>
+
                   <div class="validation-message"><?= $durationErr ?></div>
                 </div>
 
