@@ -2,7 +2,7 @@
 
 $user = json_decode($_COOKIE["user"], true);
 if (!$user) {
-    header("Location: ../index_login.php?invalid=Please login first!");
+    header("Location:../login.php?invalid=Please login first!");
     exit;
 }
 
@@ -30,6 +30,6 @@ if ($code && $code != $user['role']) {
 
 if (isset($_GET["signout"])) {
     setcookie("user", "",  -1, "/"); // Expire the cookie
-    echo "<script>location.replace('http://localhost/Cinema/index_login.php')</script>";
+    echo "<script>location.replace('http://localhost/Cinema/login.php')</script>";
     exit;
 }

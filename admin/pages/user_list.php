@@ -6,9 +6,9 @@ if (isset($_GET['deleted_id'])) {
   $id = $_GET['deleted_id'];
   $status = delete_users($mysqli, $id);
   if ($status == true) {
-    $deleteSuccess = "Deleted User Successfully";
+    $report = "Deleted {$id} User Successfully";
   } else {
-    $deleteFail = "Can't delete user record";
+    $report = "Can't delete user record";
   }
 }
 ?>
@@ -28,10 +28,12 @@ if (isset($_GET['deleted_id'])) {
         <div class="col-lg-12 grid-margin stretch-card">
           <div class="card">
             <div class="card-body" id="movie_schedule">
+              <?php if (isset($_GET['deleted_id'])) { ?>
+                <span class="bg-warning align-item-center">
+                  <?= $report ?>
+                </span>
+              <?php } ?>
               <h4 class="card-title"> User list</h4>
-
-              <p class="card-description"> blah blah <code>.table-striped</code>
-              </p>
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -49,7 +51,7 @@ if (isset($_GET['deleted_id'])) {
                   <?php while ($user = $users->fetch_assoc()) { ?>
                     <tr>
                       <td>
-                        <img src="data:image/' . $type . ';base64,<?= $user['profile'] ?>">
+                        <img class="table-img" src="../../assets/profile/<?= $user['profile'] ?>">
                       </td>
                       <td> <?= $user['username'] ?></td>
                       <td> <?= $user['email'] ?></td>

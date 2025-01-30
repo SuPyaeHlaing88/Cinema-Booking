@@ -56,7 +56,7 @@
                       <tr>
                         <td><?= $m ?></td>
                         <td>
-                          <img class="table-img" src="data:image/' . $type . ';base64,<?= $movie['poster'] ?>">
+                          <img class="table-img" src="../../assets/poster/<?= $movie['poster'] ?>">
                         </td>
                         <td><?= $movie['title'] ?></td>
                         <td><?= $nowMovie['duration'] ?></td>

@@ -28,15 +28,15 @@ if (isset($_POST['selected_movie'])) {
         $invalid = "err";
     }
 
-    function end_time_cal($startTime, $duration)
-    {
-        $startDateTime = new DateTime(trim($startTime));
-        $duration = trim($duration);
-        list($hours, $minutes, $seconds) = explode(":", $duration);
-        $interval = new DateInterval("PT{$hours}H{$minutes}M{$seconds}S");
-        $startDateTime->add($interval);
-        return $startDateTime->format("H:i:s");
-    }
+    // function end_time_cal($startTime, $duration)
+    // {
+    //     $startDateTime = new DateTime(trim($startTime));
+    //     $duration = trim($duration);
+    //     list($hours, $minutes, $seconds) = explode(":", $duration);
+    //     $interval = new DateInterval("PT{$hours}H{$minutes}M{$seconds}S");
+    //     $startDateTime->add($interval);
+    //     return $startDateTime->format("H:i:s");
+    // }
 
     function calculate_time($startTime, $duration, $operation = 'add')
     {

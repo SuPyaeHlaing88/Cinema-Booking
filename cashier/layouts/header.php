@@ -8,7 +8,15 @@
 <?php require_once("../../storage/cinema_has_seat_crud.php"); ?>
 <?php require_once("../../storage/showtime_crud.php"); ?>
 <?php require_once("../../storage/screening_crud.php"); ?>
-
+<?php
+session_start();
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user'];
+  $username = $user['username'];
+  $role = $user['role'];
+  $profile = $user['profile'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +38,6 @@
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link rel="shortcut icon" href="../../assets/images/favicon.png" />
 </head>
+
 <body>
   <div class="container-scroller">
-    
-
-  

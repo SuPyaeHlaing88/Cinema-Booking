@@ -30,7 +30,7 @@ if (isset($_POST['username'])) {
     $confirm = $_POST['confirm'];
     $role = $_POST['role'];
     $profile = $_FILES['profile'];
-    $profileName = $profile['name'] . date('YMDHIS');
+    $profileName = date('YMDHIS') . $profile['name'];
 
     if (trim($userName) === "") {
         $userNameErr = "Can't be blank!";
@@ -64,26 +64,22 @@ if (isset($_POST['username'])) {
 
     if (!$invalid) {
         $tmp = $profile['tmp_name'];
-        $imgfile = file_get_contents($tmp);
-        $dataProfile = base64_encode($imgfile);
 
         // for updating item 
         if (isset($_GET['id'])) {
 
-            $status = update_users($mysqli, $id, $username, $email, $password, $role);
+            $status = update_users($mysqli, $id, $username, $userEmail, $password, $role, $profileName);
             if ($status === true) {
-                // for image's name can be save in workspace folder 
-                move_uploaded_file($poster['tmp_name'], '../../assets/images' . $posterName);
+                move_uploaded_file($tmp, '../../assets/profile/' . $profileName);
                 echo "<script>location.replace('../pages/user_list.php?update')</script>";
             } else {
                 $invalid = $status;
             }
         } else {
             $user_password = password_hash($password, PASSWORD_BCRYPT);
-            $status = save_user($mysqli, $userName, $userEmail, $user_password, $role, $dataProfile);
+            $status = save_user($mysqli, $userName, $userEmail, $user_password, $role, $profileName);
             if ($status === true) {
-                // for image's name can be save in workspace folder 
-                move_uploaded_file($tmp, '../../assets/images/' . $posterName);
+                move_uploaded_file($tmp, '../../assets/profile/' . $profileName);
                 echo "<script>location.replace('../pages/user_list.php')</script>";
             } else {
                 $invalid = $status;

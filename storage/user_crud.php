@@ -25,8 +25,10 @@ function get_users($mysqli)
 function get_user_with_id($mysqli, $id)
 {
     $sql = "SELECT * FROM `users` WHERE `id`=$id";
-    $user = $mysqli->query($sql);
-    return $user->fetch_assoc();
+    return $mysqli->query($sql);
+
+    // $user = $mysqli->query($sql);
+    // return $user->fetch_assoc();
 }
 
 function get_user_with_email($mysqli, $email)
@@ -41,9 +43,9 @@ function delete_users($mysqli, $id)
     return $mysqli->query($sql);
 }
 
-function update_users($mysqli, $id, $username, $email, $password, $role)
+function update_users($mysqli, $id, $username, $email, $password, $role, $profile)
 {
-    $sql = "UPDATE `users` SET `username`='$username',`email`='$email',`password`='$password',`role`=$role WHERE `id`= $id ";
+    $sql = "UPDATE `users` SET `username`='$username',`email`='$email',`password`='$password',`role`=$role,`profile`='$profile' WHERE `id`= $id ";
     return $mysqli->query($sql);
 }
 

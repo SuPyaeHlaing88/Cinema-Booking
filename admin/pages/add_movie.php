@@ -27,7 +27,6 @@ if (isset($_POST['submit'])) {
   $genre = $_POST['genre'];
   $duration = $_POST['duration'];
   $poster = $_FILES['poster'];
-
   $posterName = date('YMDHIS') . $poster['name'];
 
   if (trim($title) === "") {
@@ -134,9 +133,6 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div class="form-group" id="duration-form">
-                  <!-- <label for="duration">Enter duration (in hours, minutes, and seconds):</label>
-                  <input type="text" id="duration" placeholder="HH:MM:SS"> -->
-
                   <label for="duration">Duration</label>
                   <input type="text" class="form-control" id="duration" name="duration" placeholder="HH:MM:SS" value="<?= $duration ?>" placeholder="Duration">
                   <p id="error-message" style="color: red; display: none;">Please enter a valid duration in the format HH:MM:SS.</p>

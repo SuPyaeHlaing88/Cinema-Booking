@@ -219,7 +219,7 @@ function get_all_for_show($mysqli, $movie_id, $cinema_id)
                 LEFT JOIN showtimes as sh ON scr.showtime_id = sh.id 
                 LEFT JOIN movies as m ON scr.movie_id = m.id
                 LEFT JOIN cinemas as s ON scr.cinema_id = s.id
-                WHERE scr.movie_id = '$movie_id' and  scr .cinema_id = '$cinema_id'";
+                WHERE scr.movie_id = '$movie_id' and  scr .cinema_id = '$cinema_id' AND sh.showdate > CURDATE()";
     return $mysqli->query($sql);
 }
 

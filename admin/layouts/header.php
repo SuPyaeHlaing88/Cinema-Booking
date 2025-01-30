@@ -8,7 +8,16 @@
 <?php require_once("../../storage/cinema_has_seat_crud.php"); ?>
 <?php require_once("../../storage/showtime_crud.php"); ?>
 <?php require_once("../../storage/screening_crud.php"); ?>
-
+<?php
+session_start();
+if (isset($_SESSION['user'])) {
+  $user = $_SESSION['user'];
+  $username = $user['username'];
+  $role = $user['role'];
+  $profile = $user['profile'];
+}
+?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +25,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Cinema Admin</title>
+  <title>Cinema</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="../../assets/vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -30,8 +39,6 @@
   <link rel="stylesheet" href="../../assets/css/style.css">
   <link rel="shortcut icon" href="../../assets/images/favicon.png" />
 </head>
+
 <body>
   <div class="container-scroller">
-    
-
-  

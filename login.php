@@ -6,19 +6,6 @@ if (isset($_COOKIE['user'])) {
   header("location:home.php");
 }
 
-// $user = get_user_with_id($mysqli, 1);
-// if (!$user) {
-//     save_user($mysqli, "admin", "admin@gmail.com", "password", 1);
-// }
-// $users = get_users($mysqli);
-// $users = $users->fetch_all();
-// $admin_user = array_filter($users, function ($user) {
-//     return $user[4] == 1; 
-// });
-// if (!$admin_user) {
-//     $admin_password = password_hash("password", PASSWORD_BCRYPT);
-//     save_user($mysqli, "admin", "admin@gmail.com", $admin_password, 1);
-// }
 if (have_admin($mysqli)) {
   $admin_password = password_hash("password", PASSWORD_BCRYPT);
   save_user($mysqli, "admin", "admin@gmail.com", $admin_password, 1, "profile.png");
@@ -140,4 +127,5 @@ if (isset($_POST['email'])) {
     }
   })
 </script>
-</html> 
+
+</html>
